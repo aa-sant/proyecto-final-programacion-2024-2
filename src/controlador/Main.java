@@ -1,7 +1,4 @@
 package controlador;
-
-import javax.swing.SwingUtilities;
-
 import vista.GUI;
 
 public class Main {
