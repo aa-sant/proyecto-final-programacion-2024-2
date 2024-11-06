@@ -34,4 +34,19 @@ public class Usuario {
 	public void setAfiliado(boolean afiliado) {
 		this.afiliado = afiliado;
 	}
+	
+	@Override
+    public String toString() {
+        return id + "," + nombre + "," + afiliado;
+    }
+
+    public static Usuario fromString(String line) {
+        String[] infoUsuario = line.split(",");
+        
+        String id = infoUsuario[0];
+        String nombre = infoUsuario[1];
+        boolean afiliado = Boolean.parseBoolean(infoUsuario[2]);
+        
+        return new Usuario(id, nombre, afiliado);
+    }
 }

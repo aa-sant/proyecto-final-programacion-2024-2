@@ -8,4 +8,8 @@ public class Controlador {
 	public Controlador() {
 		gui = new GUI(this);
 	}
+	
+	public String iniciarSesion(String identificacion) {
+		return GestorUsuarios.iniciarSesion(identificacion);
+	}
 }

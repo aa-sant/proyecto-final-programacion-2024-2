@@ -2,6 +2,6 @@ package controlador;
 
 public class Main {
 	public static void main(String[] args) {
-		new Controlador();
+		Controlador c = new Controlador();
 	}
 }
