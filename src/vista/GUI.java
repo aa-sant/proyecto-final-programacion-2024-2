@@ -120,7 +120,7 @@ public class GUI {
             	MostrarProduc("SERVICIOS");          }
         });
         
-
+//
         FramePrinc.setVisible(true);
     }
 
