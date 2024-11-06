@@ -1,6 +1,9 @@
 package vista;
 
 import javax.swing.*;
+
+import controlador.Controlador;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -8,10 +11,14 @@ public class GUI {
     private JFrame FrameIni;  
     private JFrame FramePrinc;  
     private JFrame Frameproducto;
+    
+    private Controlador c;
 
-    public GUI() {
+    public GUI(Controlador c) {
+    	this.c = c;
         InicioSsPant();
     }
+    
     private void InicioSsPant() {
         FrameIni = new JFrame("Iniciar Sesión");
         FrameIni.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
