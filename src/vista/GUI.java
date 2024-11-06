@@ -15,7 +15,7 @@ public class GUI {
     private void InicioSsPant() {
         FrameIni = new JFrame("Iniciar Sesión");
         FrameIni.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        FrameIni.setSize(400, 300);
+        FrameIni.setSize(600, 300);
         FrameIni.setLayout(null);
 
         JLabel Lbidenti = new JLabel("Ingrese su identificación:");
@@ -27,11 +27,11 @@ public class GUI {
         FrameIni.add(Fieldidenti);
 
         JButton IniSesBoton = new JButton("Iniciar Sesión");
-        IniSesBoton.setBounds(90, 150, 100, 30);
+        IniSesBoton.setBounds(90, 150, 150, 30);
         FrameIni.add(IniSesBoton);
 
         JButton RegisBoton = new JButton("Registrarse");
-        RegisBoton.setBounds(210, 150, 100, 30);
+        RegisBoton.setBounds(210, 150, 150, 30);
         FrameIni.add(RegisBoton);
 
         IniSesBoton.addActionListener(new ActionListener() {
@@ -46,7 +46,8 @@ public class GUI {
             	CategoriasPant();  
             }
         });
-
+        FrameIni.setResizable(false);
+        FrameIni.setLocationRelativeTo(null);
         FrameIni.setVisible(true);
     }
     
@@ -58,6 +59,9 @@ public class GUI {
         FramePrinc = new JFrame("PlusMarket - Categorías");
         FramePrinc.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         FramePrinc.setSize(800, 600);
+        FramePrinc.setLocationRelativeTo(null);
+        FramePrinc.setResizable(false);
+
         FramePrinc.setLayout(null);
 
         JLabel LbCategorias = new JLabel("Seleccione una categoría:");
@@ -126,6 +130,9 @@ public class GUI {
         Frameproducto = new JFrame("PlusMarket - " + category);
         Frameproducto.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         Frameproducto.setSize(600, 400);
+        Frameproducto.setLocationRelativeTo(null);
+        Frameproducto.setResizable(false);
+
         Frameproducto.setLayout(null);  
 
         JLabel productLabel = new JLabel("Productos de la categoría: " + category);
@@ -171,4 +178,3 @@ public class GUI {
         Frameproducto.setVisible(true);
     }
 }
-
