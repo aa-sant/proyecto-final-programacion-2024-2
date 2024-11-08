@@ -12,4 +12,8 @@ public class Controlador {
 	public String iniciarSesion(String identificacion) {
 		return GestorUsuarios.iniciarSesion(identificacion);
 	}
+	
+	public String registrarUsuario(String identificacion, String nombre) {
+		return GestorUsuarios.registrarUsuario(identificacion, nombre);
+	}
 }
