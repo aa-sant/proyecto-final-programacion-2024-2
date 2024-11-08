@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import controlador.Controlador;
 
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -22,41 +23,68 @@ public class GUI {
     private void InicioSsPant() {
         FrameIni = new JFrame("Iniciar Sesión");
         FrameIni.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        FrameIni.setSize(600, 300);
-        FrameIni.setLayout(null);
+        FrameIni.setSize(400, 250);  
+        FrameIni.setLayout(new GridLayout(4, 1, 10, 10)); 
 
-        JLabel Lbidenti = new JLabel("Ingrese su identificación:");
-        Lbidenti.setBounds(120, 50, 200, 30);
+        JLabel Lbidenti = new JLabel("Ingrese su identificación:", SwingConstants.CENTER);
         FrameIni.add(Lbidenti);
 
+  
         JTextField Fieldidenti = new JTextField(20);
-        Fieldidenti.setBounds(100, 90, 200, 30);
+        Fieldidenti.setHorizontalAlignment(JTextField.CENTER); 
         FrameIni.add(Fieldidenti);
 
+   
+        JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 10, 0));  
+
         JButton IniSesBoton = new JButton("Iniciar Sesión");
-        IniSesBoton.setBounds(90, 150, 150, 30);
-        FrameIni.add(IniSesBoton);
+        buttonPanel.add(IniSesBoton);
 
         JButton RegisBoton = new JButton("Registrarse");
-        RegisBoton.setBounds(210, 150, 150, 30);
-        FrameIni.add(RegisBoton);
+        buttonPanel.add(RegisBoton);
 
+        FrameIni.add(buttonPanel); 
+        
+        
+        
         IniSesBoton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            	FrameIni.dispose();  
-            	CategoriasPant();  
+          public void actionPerformed(ActionEvent e) {
+           String identificacion = Fieldidenti.getText();
+          if (!identificacion.isEmpty()) {
+          String mensaje = c.iniciarSesion(identificacion);  
+          JOptionPane.showMessageDialog(FrameIni, mensaje);
+          if (mensaje.equals("Sesión iniciada correctamente.")) {
+          FrameIni.dispose();
+         CategoriasPant();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(FrameIni, "Por favor ingrese su identificación.");
+                }
             }
         });
+
         RegisBoton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            	FrameIni.dispose();  
-            	CategoriasPant();  
+        	public void actionPerformed(ActionEvent e) {;
+                String identificacion = Fieldidenti.getText();
+                if (!identificacion.isEmpty()) {
+                    String nombre = JOptionPane.showInputDialog(FrameIni, "Ingrese su nombre:");
+                    if (nombre != null && !nombre.trim().isEmpty()) {
+                        String mensaje = c.registrarUsuario(identificacion, nombre.trim());
+                        JOptionPane.showMessageDialog(FrameIni, mensaje);
+                    } else {
+                        JOptionPane.showMessageDialog(FrameIni, "Nombre no válido.");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(FrameIni, "Por favor ingrese su identificación.");
+                }
             }
         });
+
         FrameIni.setResizable(false);
         FrameIni.setLocationRelativeTo(null);
         FrameIni.setVisible(true);
     }
+
     
     
     
