@@ -1,4 +1,4 @@
 123456,Daniel,true
-123,Arturo,true
+123,Arturo,false
 245,Leonel,true
 2222,asddsa,true
