@@ -71,6 +71,8 @@ public class GUI {
                     if (nombre != null && !nombre.trim().isEmpty()) {
                         String mensaje = c.registrarUsuario(identificacion, nombre.trim());
                         JOptionPane.showMessageDialog(FrameIni, mensaje);
+                        FrameIni.dispose();
+                        CategoriasPant();
                     } else {
                         JOptionPane.showMessageDialog(FrameIni, "Nombre no válido.");
                     }
