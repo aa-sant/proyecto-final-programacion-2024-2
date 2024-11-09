@@ -36,10 +36,21 @@ public class GestorCarrito {
                 .computeIfAbsent(item.getProducto().getCategoria(), k -> new ArrayList<>())
                 .add(item);
         }
-
-        StringBuilder resumen = new StringBuilder();
+        
         float valorTotalCompra = 0;
+        for (String categoria : productosPorCategoria.keySet()) {
+        	List<ItemCarrito> productos = productosPorCategoria.get(categoria);
+        	float valorTotalCategoria = 0;
 
+        	for (ItemCarrito item : productos) {
+        		valorTotalCategoria += item.getProducto().getPrecio() * item.getCantidad();
+        	}
+
+        	valorTotalCompra += valorTotalCategoria;
+        }
+                
+        float valorFinalCompra = 0;
+        StringBuilder resumen = new StringBuilder();
         for (String categoria : productosPorCategoria.keySet()) {
             List<ItemCarrito> productos = productosPorCategoria.get(categoria);
             float valorTotalCategoria = 0;
@@ -62,7 +73,7 @@ public class GestorCarrito {
                        .append("% Aplicado: -$").append(df.format(descuentoCategoria)).append("\n\n");
             }
 
-            valorTotalCompra += valorTotalCategoria;
+            valorFinalCompra += valorTotalCategoria;
         }
 
         if (esAfiliado) {
@@ -72,7 +83,7 @@ public class GestorCarrito {
                    .append("% Aplicado: -$").append(df.format(descuentoAfiliado)).append("\n");
         }
 
-        resumen.append("Valor Total de Compra: $").append(df.format(valorTotalCompra)).append("\n");
+        resumen.append("Valor Total de Compra: $").append(df.format(valorFinalCompra)).append("\n");
 
         return resumen.toString();
     }
