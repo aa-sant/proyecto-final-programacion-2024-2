@@ -64,17 +64,20 @@ public class GUI {
         });
 
         RegisBoton.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {;
+            public void actionPerformed(ActionEvent e) {
                 String identificacion = Fieldidenti.getText();
                 if (!identificacion.isEmpty()) {
                     String nombre = JOptionPane.showInputDialog(FrameIni, "Ingrese su nombre:");
                     if (nombre != null && !nombre.trim().isEmpty()) {
                         String mensaje = c.registrarUsuario(identificacion, nombre.trim());
                         JOptionPane.showMessageDialog(FrameIni, mensaje);
-                        FrameIni.dispose();
-                        CategoriasPant();
+                        
+                        if (mensaje.equals("Usuario registrado correctamente.")) {
+                            FrameIni.dispose();
+                            CategoriasPant();
+                        }
                     } else {
-                        JOptionPane.showMessageDialog(FrameIni, "Nombre no válido.");
+                        JOptionPane.showMessageDialog(FrameIni, "Identificación inválida.");
                     }
                 } else {
                     JOptionPane.showMessageDialog(FrameIni, "Por favor ingrese su identificación.");
