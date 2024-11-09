@@ -1,5 +1,6 @@
 package controlador;
 
+import java.io.*;
 import java.util.*;
 import java.text.DecimalFormat;
 
@@ -7,6 +8,7 @@ import modelo.*;
 
 public class GestorCarrito {
     private static List<ItemCarrito> items = new ArrayList<>();
+    private static final String ARCHIVO_VENTAS = "ventas.txt";
 
     public static String anadirProductoAlCarrito(Producto producto, int cantidad) {
         for (ItemCarrito item : items) {
@@ -87,9 +89,80 @@ public class GestorCarrito {
 
         return resumen.toString();
     }
+    
+    public static String realizarCompra() {
+        Map<String, Map<String, Integer>> ventasPorCategoria = new HashMap<>();
 
-    public static List<ItemCarrito> getItems() {
-        return items;
+        // Leer el archivo existente
+        try (BufferedReader br = new BufferedReader(new FileReader(ARCHIVO_VENTAS))) {
+            String linea;
+            String categoriaActual = null;
+            while ((linea = br.readLine()) != null) {
+                if (!linea.startsWith("    ")) {
+                    // Línea de categoría
+                    String[] partes = linea.split(": ");
+                    categoriaActual = partes[0];
+                    int cantidadCategoria = Integer.parseInt(partes[1].trim());
+                    ventasPorCategoria.putIfAbsent(categoriaActual, new HashMap<>());
+                    ventasPorCategoria.get(categoriaActual).put(categoriaActual, cantidadCategoria);
+                } else {
+                    // Línea de producto
+                    String[] partes = linea.trim().split(": ");
+                    String nombreProducto = partes[0];
+                    int cantidadProducto = Integer.parseInt(partes[1].trim());
+                    ventasPorCategoria.get(categoriaActual).put(nombreProducto, cantidadProducto);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Archivo de ventas no encontrado.");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Error al leer el archivo de ventas.";
+        }
+
+        // Actualizar el archivo con los productos del carrito
+        for (ItemCarrito item : items) {
+            String categoria = item.getProducto().getCategoria();
+            String nombreProducto = item.getProducto().getNombre();
+            int cantidadComprada = item.getCantidad();
+
+            ventasPorCategoria.putIfAbsent(categoria, new HashMap<>());
+            Map<String, Integer> productosEnCategoria = ventasPorCategoria.get(categoria);
+            
+            // Actualizar cantidad de la categoría
+            productosEnCategoria.put(categoria, productosEnCategoria.getOrDefault(categoria, 0) + cantidadComprada);
+
+            // Actualizar cantidad del producto
+            productosEnCategoria.put(nombreProducto, productosEnCategoria.getOrDefault(nombreProducto, 0) + cantidadComprada);
+        }
+
+        // Guardar cambios
+        try (PrintWriter pw = new PrintWriter(new FileWriter(ARCHIVO_VENTAS))) {
+            for (String categoria : ventasPorCategoria.keySet()) {
+                Map<String, Integer> productosEnCategoria = ventasPorCategoria.get(categoria);
+
+                // Escribir la categoría con su cantidad total
+                int totalCategoria = productosEnCategoria.getOrDefault(categoria, 0);
+                pw.println(categoria + ": " + totalCategoria);
+
+                // Escribir los productos con sus cantidades
+                for (Map.Entry<String, Integer> entry : productosEnCategoria.entrySet()) {
+                    String nombreProducto = entry.getKey();
+                    if (!nombreProducto.equals(categoria)) {
+                        int cantidadProducto = entry.getValue();
+                        pw.println("    " + nombreProducto + ": " + cantidadProducto);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Error al escribir en el archivo de ventas.";
+        }
+
+        // Limpiamos el carrito
+        items.clear();
+
+        return "Compra realizada.";
     }
 }
 

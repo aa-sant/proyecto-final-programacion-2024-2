@@ -60,4 +60,8 @@ public class Controlador {
 	public String mostrarResumenCompra(){
 		return GestorCarrito.mostrarResumenCompra(usuarioLogueado.isAfiliado());
 	}
+	
+	public String realizarCompra() {
+		return GestorCarrito.realizarCompra();
+	}
 }

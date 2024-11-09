@@ -2,10 +2,6 @@ package vista;
 import javax.swing.*;
 
 import controlador.Controlador;
-import controlador.GestorCarrito;
-import controlador.GestorProductos;
-import modelo.ItemCarrito;
-import modelo.Producto;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
