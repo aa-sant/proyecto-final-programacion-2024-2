@@ -34,4 +34,8 @@ public class Producto {
 	public void setPrecio(float precio) {
 		this.precio = precio;
 	}
+	
+	public String toListItem() {
+		return nombre + ". Precio: $" + precio;
+	}
 }

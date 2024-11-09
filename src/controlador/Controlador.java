@@ -1,5 +1,9 @@
 package controlador;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import modelo.*;
 import vista.*;
 
 public class Controlador {
@@ -9,11 +13,24 @@ public class Controlador {
 		gui = new GUI(this);
 	}
 	
+	// Gestión Usuarios
 	public String iniciarSesion(String identificacion) {
 		return GestorUsuarios.iniciarSesion(identificacion);
 	}
 	
 	public String registrarUsuario(String identificacion, String nombre) {
 		return GestorUsuarios.registrarUsuario(identificacion, nombre);
+	}
+	
+	// Gestión Productos
+	public List<String> obtenerProductosPorCategoria(String nombreCategoria){
+		List<Producto> productos = GestorProductos.obtenerProductosPorCategoria(nombreCategoria);
+		
+        List<String> stringProductos = new ArrayList<>();
+        for (Producto producto : productos) {
+        	stringProductos.add(producto.toListItem());
+        }
+        
+        return stringProductos;
 	}
 }
