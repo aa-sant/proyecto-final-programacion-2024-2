@@ -10,8 +10,8 @@ public class GestorUsuarios {
     private static final String ARCHIVO_USUARIOS = "usuarios.txt";
 
     private static void guardarUsuario(Usuario usuario) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARCHIVO_USUARIOS))) {
-        	writer.write(usuario.toString());
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARCHIVO_USUARIOS, true))) {
+            writer.write(usuario.toString());
             writer.newLine();
         } catch (IOException e) {
             System.out.println("Error al guardar los usuarios: " + e.getMessage());

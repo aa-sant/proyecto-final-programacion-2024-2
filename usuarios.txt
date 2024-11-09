@@ -1,1 +1,3 @@
-123456,daniel,false
+123456,Daniel,false
+123,Arturo,false
+245,Leonel,false
