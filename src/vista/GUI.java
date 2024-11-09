@@ -2,11 +2,15 @@ package vista;
 import javax.swing.*;
 
 import controlador.Controlador;
+import controlador.GestorCarrito;
+import controlador.GestorProductos;
+import modelo.ItemCarrito;
+import modelo.Producto;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.util.List;
 public class GUI {
     private JFrame FrameIni;  
     private JFrame FramePrinc;  
@@ -19,7 +23,7 @@ public class GUI {
     	this.c = c;
         InicioSsPant();
     }
-    
+   
     private void InicioSsPant() {
         FrameIni = new JFrame("Iniciar Sesión");
         FrameIni.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -119,6 +123,11 @@ public class GUI {
         JButton BtnCarro = new JButton("Ver Carrito");
         BtnCarro.setBounds(50, 330, 150, 30);
         FramePrinc.add(BtnCarro);
+        BtnCarro.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		mostrarCarrito();
+        	}
+        });
 
         JButton BtnPagar = new JButton("Pagar");  
         BtnPagar.setBounds(50, 380, 150, 30);
@@ -166,32 +175,43 @@ public class GUI {
         Frameproducto.setSize(600, 400);
         Frameproducto.setLocationRelativeTo(null);
         Frameproducto.setResizable(false);
-        Frameproducto.setLayout(null);  
+        Frameproducto.setLayout(null);
 
-        JLabel productLabel = new JLabel("Productos de la categoría: " + category);
-        productLabel.setBounds(50, 30, 300, 30);
-        Frameproducto.add(productLabel);
+        JLabel lbproducto = new JLabel("Productos de la categoría: " + category);
+        lbproducto.setBounds(50, 30, 300, 30);
+        Frameproducto.add(lbproducto);
 
-        JComboBox<String> productComboBox = new JComboBox<>(new String[]{"Producto 1", "Producto 2", "Producto 3"});
+        List<Producto> productos = GestorProductos.obtenerProductosPorCategoria(category);
+        JComboBox<String> productComboBox = new JComboBox<>();
+        for (Producto producto : productos) {
+            productComboBox.addItem(producto.getNombre() + ". Precio: $" + producto.getPrecio());
+        }
         productComboBox.setBounds(50, 80, 200, 30);
         Frameproducto.add(productComboBox);
 
-        JLabel quantityLabel = new JLabel("Cantidad:");
-        quantityLabel.setBounds(50, 130, 100, 30);
-        Frameproducto.add(quantityLabel);
+        JLabel Cantidadlb = new JLabel("Cantidad:");
+        Cantidadlb.setBounds(50, 130, 100, 30);
+        Frameproducto.add(Cantidadlb);
 
-        JTextField quantityField = new JTextField(5);
-        quantityField.setBounds(120, 130, 50, 30);
-        Frameproducto.add(quantityField);
+        JSpinner CantidadSP = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1));
+        CantidadSP.setBounds(120, 130, 50, 30);
+        Frameproducto.add(CantidadSP);
 
         JButton addToCartButton = new JButton("Añadir al Carrito");
         addToCartButton.setBounds(50, 180, 150, 30);
         addToCartButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (productComboBox.getSelectedItem() == null || quantityField.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(Frameproducto, "Seleccione un producto e ingrese la cantidad.", "Error", JOptionPane.ERROR_MESSAGE);
+                if (productComboBox.getSelectedItem() == null) {
+                    JOptionPane.showMessageDialog(Frameproducto, "Seleccione un producto.", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    JOptionPane.showMessageDialog(Frameproducto, "Producto añadido al carrito");
+                    String selectedProduct = productComboBox.getSelectedItem().toString();
+                    Producto producto = GestorProductos.obtenerProductoPorItem(selectedProduct);
+
+                    if (producto != null) {
+                        int cantidad = (Integer) CantidadSP.getValue();
+                        String mensaje = GestorCarrito.anadirProductoAlCarrito(producto, cantidad);
+                        JOptionPane.showMessageDialog(Frameproducto, mensaje);
+                    }
                 }
             }
         });
@@ -201,7 +221,7 @@ public class GUI {
         BtnPagar.setBounds(50, 230, 150, 30);
         BtnPagar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                mostrarResumenCompra(); 
+                mostrarResumenCompra();
             }
         });
         Frameproducto.add(BtnPagar);
@@ -210,8 +230,8 @@ public class GUI {
         volverBoton.setBounds(50, 280, 150, 30);
         volverBoton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Frameproducto.dispose();  
-                FramePrinc.setVisible(true);  
+                Frameproducto.dispose();
+                FramePrinc.setVisible(true);
             }
         });
         Frameproducto.add(volverBoton);
@@ -231,12 +251,20 @@ public class GUI {
         JLabel lblTitulo = new JLabel("Detalles de la Compra:", JLabel.CENTER);
         panelDetalleCompra.add(lblTitulo);
 
-        JLabel lblP1 = new JLabel("Producto 1: $10.00");
-        JLabel lbP2 = new JLabel("Producto 2: $15.00");
-        JLabel LbTT = new JLabel("Total: $25.00", JLabel.CENTER);
+        List<ItemCarrito> itemsCarrito = GestorCarrito.getItems();
+        float total = 0;
 
-        panelDetalleCompra.add(lblP1);
-        panelDetalleCompra.add(lbP2);
+        for (ItemCarrito item : itemsCarrito) {
+            Producto producto = item.getProducto();
+            int cantidad = item.getCantidad();
+            float precioTotal = producto.getPrecio() * cantidad;
+            total += precioTotal;
+
+            JLabel lblProducto = new JLabel(producto.getNombre() + " x" + cantidad + " - Precio Total: $" + precioTotal);
+            panelDetalleCompra.add(lblProducto);
+        }
+
+        JLabel LbTT = new JLabel("Total: $" + total, JLabel.CENTER);
         panelDetalleCompra.add(LbTT);
 
         JButton btnConfirmar = new JButton("Confirmar Compra");
@@ -262,4 +290,46 @@ public class GUI {
         FramePago.add(panelBotones, BorderLayout.SOUTH);
 
         FramePago.setVisible(true);
-    }}
+    }
+    private void mostrarCarrito() {
+        JFrame frameCarrito = new JFrame("Carrito de Compras");
+        frameCarrito.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frameCarrito.setSize(600, 400);
+        frameCarrito.setLocationRelativeTo(null);
+        frameCarrito.setResizable(false);
+        frameCarrito.setLayout(new BorderLayout());
+
+        JPanel panelCarrito = new JPanel();
+        panelCarrito.setLayout(new GridLayout(0, 1));
+
+        List<ItemCarrito> itemsCarrito = GestorCarrito.getItems();
+
+        if (itemsCarrito.isEmpty()) {
+            JLabel lblVacio = new JLabel("El carrito está vacío.");
+            panelCarrito.add(lblVacio);
+        } else {
+            for (ItemCarrito item : itemsCarrito) {
+                Producto producto = item.getProducto();
+                int cantidad = item.getCantidad();
+                float precioTotal = producto.getPrecio() * cantidad;
+
+                JLabel lblProducto = new JLabel(producto.getNombre() + " x" + cantidad + " - Precio Total: $" + precioTotal);
+                panelCarrito.add(lblProducto);//uwu
+            }
+        }
+
+        JButton btnVolver = new JButton("Volver a Categorías");
+        btnVolver.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frameCarrito.dispose();
+                FramePrinc.setVisible(true);  
+            }
+        });
+
+        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        panelBotones.add(btnVolver);
+
+        frameCarrito.add(panelCarrito, BorderLayout.CENTER);
+        frameCarrito.add(panelBotones, BorderLayout.SOUTH);
+
+        frameCarrito.setVisible(true);}}
