@@ -1,0 +1,4 @@
+ASEO: 5
+    Jabón: 5
+ELECTRODOMÉSTICOS: 1
+    Microondas: 1

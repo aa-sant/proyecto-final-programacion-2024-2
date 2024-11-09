@@ -3,7 +3,7 @@ package modelo;
 public class ItemCarrito {
     private Producto producto;
     private int cantidad;
-
+// esto es para comer
     public ItemCarrito(Producto producto, int cantidad) {
         this.producto = producto;
         this.cantidad = cantidad;

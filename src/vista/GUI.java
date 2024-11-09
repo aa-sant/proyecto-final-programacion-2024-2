@@ -267,7 +267,9 @@ public class GUI {
         JButton btnConfirmar = new JButton("Confirmar Compra");
         btnConfirmar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(framePago, "Compra confirmada!");
+  
+               String mensaje = c.realizarCompra();
+               JOptionPane.showMessageDialog(FramePago, mensaje);
                 framePago.dispose();
             }
         });
