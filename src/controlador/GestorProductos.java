@@ -34,4 +34,25 @@ public class GestorProductos {
 
         return productos;
     }
+    
+    public static Producto obtenerProductoPorItem(String itemProducto) {
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] datos = linea.split(",");
+                String categoria = datos[0];
+                String nombre = datos[1];
+                float precio = Float.parseFloat(datos[2]);
+
+                if ((nombre + ". Precio: $" + precio).equalsIgnoreCase(itemProducto)) {
+                	return new Producto(categoria, nombre, precio);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error al leer los productos: " + e.getMessage());
+        }
+        
+        // Si no encontramos el producto, devolvemos null
+        return null;
+    }
 }

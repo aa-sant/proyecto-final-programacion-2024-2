@@ -33,4 +33,12 @@ public class Controlador {
         
         return stringProductos;
 	}
+	
+	public String anadirProductoAlCarrito(String itemProducto, int cantidad) {
+		Producto producto = GestorProductos.obtenerProductoPorItem(itemProducto);
+		
+		if (producto == null) return "Producto no encontrado.";
+		
+		return GestorCarrito.anadirProductoAlCarrito(producto, cantidad);
+	}
 }
