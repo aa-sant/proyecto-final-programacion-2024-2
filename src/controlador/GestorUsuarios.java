@@ -34,30 +34,31 @@ public class GestorUsuarios {
         return usuarios;
     }
 
-    public static String iniciarSesion(String id) {
+    public static Usuario iniciarSesion(String id) {
         List<Usuario> usuarios = leerUsuarios();
         
         for (Usuario usuario : usuarios) {
             if (usuario.getId().equals(id)) {
-                return "Sesión iniciada correctamente.";
+                return usuario;
             }
         }
         
-        return "Usuario desconocido, regístrese.";
+        return null;
     }
     
-    public static String registrarUsuario(String id, String nombre) {
+    public static Usuario registrarUsuario(String id, String nombre) {
     	List<Usuario> usuarios = leerUsuarios();
         
         for (Usuario usuario : usuarios) {
             if (usuario.getId().equals(id)) {
-                return "Identificación inválida.";
+                return null;
             }
         }
         
-        guardarUsuario(new Usuario(id, nombre, false));
+        Usuario nuevoUsuario = new Usuario(id, nombre, false);
+        guardarUsuario(nuevoUsuario);
         
-        return "Usuario registrado correctamente.";
+        return nuevoUsuario;
     }
 }
  

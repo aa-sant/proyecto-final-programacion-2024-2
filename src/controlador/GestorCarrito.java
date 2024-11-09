@@ -1,7 +1,7 @@
 package controlador;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.text.DecimalFormat;
 
 import modelo.*;
 
@@ -24,6 +24,57 @@ public class GestorCarrito {
         // Si no está en el carrito, lo añadimos
         items.add(new ItemCarrito(producto, cantidad));
         return "Producto añadido correctamente al carrito.";
+    }
+    
+    public static String mostrarResumenCompra(boolean esAfiliado) {
+        Map<String, List<ItemCarrito>> productosPorCategoria = new HashMap<>();
+        DecimalFormat df = new DecimalFormat("#,###");
+
+        // Agrupamos los productos por categoría
+        for (ItemCarrito item : items) {
+            productosPorCategoria
+                .computeIfAbsent(item.getProducto().getCategoria(), k -> new ArrayList<>())
+                .add(item);
+        }
+
+        StringBuilder resumen = new StringBuilder();
+        float valorTotalCompra = 0;
+
+        for (String categoria : productosPorCategoria.keySet()) {
+            List<ItemCarrito> productos = productosPorCategoria.get(categoria);
+            float valorTotalCategoria = 0;
+
+            resumen.append(categoria).append(":\n");
+
+            for (ItemCarrito item : productos) {
+                float valorTotalProducto = item.getProducto().getPrecio() * item.getCantidad();
+                valorTotalCategoria += valorTotalProducto;
+                resumen.append(item.getProducto().getNombre()).append(" x").append(item.getCantidad()).append("\n")
+                       .append("Valor Unitario: $").append(df.format(item.getProducto().getPrecio())).append("\n")
+                       .append("Valor Total: $").append(df.format(valorTotalProducto)).append("\n\n");
+            }
+
+            if (!esAfiliado && ConfiguracionDescuentos.CATEGORIAS_DESCUENTO_NO_AFILIADO.contains(categoria)
+                    && valorTotalCompra > ConfiguracionDescuentos.VALOR_COMPRA_MINIMA_DESCUENTO_NO_AFILIADOS) {
+                float descuentoCategoria = valorTotalCategoria * ConfiguracionDescuentos.PORCENTAJE_DESCUENTO_NO_AFILIADOS / 100;
+                valorTotalCategoria -= descuentoCategoria;
+                resumen.append("Descuento del ").append(ConfiguracionDescuentos.PORCENTAJE_DESCUENTO_NO_AFILIADOS)
+                       .append("% Aplicado: -$").append(df.format(descuentoCategoria)).append("\n\n");
+            }
+
+            valorTotalCompra += valorTotalCategoria;
+        }
+
+        if (esAfiliado) {
+            float descuentoAfiliado = valorTotalCompra * ConfiguracionDescuentos.PORCENTAJE_DESCUENTO_AFILIADOS / 100;
+            valorTotalCompra -= descuentoAfiliado;
+            resumen.append("Descuento del ").append(ConfiguracionDescuentos.PORCENTAJE_DESCUENTO_AFILIADOS)
+                   .append("% Aplicado: -$").append(df.format(descuentoAfiliado)).append("\n");
+        }
+
+        resumen.append("Valor Total de Compra: $").append(df.format(valorTotalCompra)).append("\n");
+
+        return resumen.toString();
     }
 
     public static List<ItemCarrito> getItems() {

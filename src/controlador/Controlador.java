@@ -8,6 +8,7 @@ import vista.*;
 
 public class Controlador {
 	GUI gui;
+	Usuario usuarioLogueado;
 	
 	public Controlador() {
 		gui = new GUI(this);
@@ -15,11 +16,25 @@ public class Controlador {
 	
 	// Gestión Usuarios
 	public String iniciarSesion(String identificacion) {
-		return GestorUsuarios.iniciarSesion(identificacion);
+		Usuario usuario = GestorUsuarios.iniciarSesion(identificacion);
+		
+		if (usuario == null) {
+			return "Usuario desconocido, regístrese.";
+		} else {
+			usuarioLogueado = usuario;
+			return "Sesión iniciada correctamente.";
+		}
 	}
 	
 	public String registrarUsuario(String identificacion, String nombre) {
-		return GestorUsuarios.registrarUsuario(identificacion, nombre);
+		Usuario usuario = GestorUsuarios.registrarUsuario(identificacion, nombre);
+		
+		if (usuario == null) {
+			return "Identificación inválida.";
+		} else {
+			usuarioLogueado = usuario;
+			return "Usuario registrado correctamente.";
+		}
 	}
 	
 	// Gestión Productos
@@ -40,5 +55,9 @@ public class Controlador {
 		if (producto == null) return "Producto no encontrado.";
 		
 		return GestorCarrito.anadirProductoAlCarrito(producto, cantidad);
+	}
+	
+	public String mostrarResumenCompra(){
+		return GestorCarrito.mostrarResumenCompra(usuarioLogueado.isAfiliado());
 	}
 }
