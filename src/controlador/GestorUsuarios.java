@@ -45,7 +45,7 @@ public class GestorUsuarios {
         
         return null;
     }
- //dani es gay
+ //dani es gayy
     //Registra un nuevo usuario si el ID no está en uso.
     public static Usuario registrarUsuario(String id, String nombre) {
     	List<Usuario> usuarios = leerUsuarios();
