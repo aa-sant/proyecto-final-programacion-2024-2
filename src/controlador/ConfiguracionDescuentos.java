@@ -14,6 +14,6 @@ public class ConfiguracionDescuentos {
 	public static final int PORCENTAJE_DESCUENTO_AFILIADOS = 5;
 	//Porcentaje de descuento para no afiliados.
 	public static final int PORCENTAJE_DESCUENTO_NO_AFILIADOS = 5;
-	//Valor mínimo de compra para descuento de no afiliados.
+	//Valor mínimo de compra para descuento de los no afiliados.
 	public static final float VALOR_COMPRA_MINIMA_DESCUENTO_NO_AFILIADOS = 80000;
 }
