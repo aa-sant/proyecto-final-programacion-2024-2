@@ -9,6 +9,9 @@ public class GestorUsuarios {
 
     private static final String ARCHIVO_USUARIOS = "usuarios.txt";
 //Guarda un usuario en el archivo de usuarios.
+    /* 
+    * @param usuario Usuario a guardar.
+    */
     private static void guardarUsuario(Usuario usuario) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARCHIVO_USUARIOS, true))) {
             writer.write(usuario.toString());
@@ -18,6 +21,9 @@ public class GestorUsuarios {
         }
     }
 //Lee los usuarios almacenados en el archivo de usuarios.
+   /* 
+    * @return Lista de usuarios.
+    */
     private static List<Usuario> leerUsuarios() {
         List<Usuario> usuarios = new ArrayList<>();
         
@@ -34,6 +40,10 @@ public class GestorUsuarios {
         return usuarios;
     }
 //Inicia sesión de usuario mediante el ID.
+    /* 
+    * @param id Identificación del usuario.
+    * @return Usuario si existe, null en caso contrario.
+    */
     public static Usuario iniciarSesion(String id) {
         List<Usuario> usuarios = leerUsuarios();
         
@@ -46,6 +56,11 @@ public class GestorUsuarios {
         return null;
     }
     //Registra un nuevo usuario si el ID no está en uso.
+    /* 
+    * @param id     Identificación del usuario.
+    * @param nombre Nombre del usuario.
+    * @return Nuevo usuario registrado o null si el ID ya existe.
+    */
     public static Usuario registrarUsuario(String id, String nombre) {
     	List<Usuario> usuarios = leerUsuarios();
         

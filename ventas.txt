@@ -2,3 +2,5 @@ ASEO: 5
     Jabón: 5
 ELECTRODOMÉSTICOS: 1
     Microondas: 1
+SERVICIOS: 1
+    Luz: 1

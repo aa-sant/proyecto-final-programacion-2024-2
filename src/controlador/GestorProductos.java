@@ -11,6 +11,10 @@ import modelo.Producto;
 public class GestorProductos {
     private static final String FILE_PATH = "productos.txt";
 //Obtiene una lista de productos pertenecientes a la categoría especificada.
+    /* 
+    * @param nombreCategoria Nombre de la categoría de productos.
+    * @return Lista de productos en la categoría.
+    */
     public static List<Producto> obtenerProductosPorCategoria(String nombreCategoria) {
         List<Producto> productos = new ArrayList<>();
 
@@ -35,6 +39,10 @@ public class GestorProductos {
         return productos;
     }
     //Busca un producto en el archivo según su nombre y precio.
+    /* 
+    * @param itemProducto Nombre y precio del producto buscado.
+    * @return Producto encontrado o null si no existe.
+    */
     public static Producto obtenerProductoPorItem(String itemProducto) {
         try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
             String linea;

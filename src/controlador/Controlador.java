@@ -18,9 +18,10 @@ public class Controlador {
 	}
 	
 	//Inicia sesión para el usuario dado su identificación.
-    
-    // @param identificacion Identificación del usuario.
-    // @return Mensaje de éxito o error.
+    /*
+    *@param identificacion Identificación del usuario.
+    * @return Mensaje de éxito o error.
+    		*/
 	public String iniciarSesion(String identificacion) {
 		Usuario usuario = GestorUsuarios.iniciarSesion(identificacion);
 		
