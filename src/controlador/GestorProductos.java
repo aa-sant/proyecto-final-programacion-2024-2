@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modelo.Producto;
-
+//Gestiona la obtención de productos desde el archivo de productos.
 public class GestorProductos {
     private static final String FILE_PATH = "productos.txt";
-
+//Obtiene una lista de productos pertenecientes a la categoría especificada.
     public static List<Producto> obtenerProductosPorCategoria(String nombreCategoria) {
         List<Producto> productos = new ArrayList<>();
 
@@ -34,7 +34,7 @@ public class GestorProductos {
 
         return productos;
     }
-    
+    //Busca un producto en el archivo según su nombre y precio.
     public static Producto obtenerProductoPorItem(String itemProducto) {
         try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
             String linea;

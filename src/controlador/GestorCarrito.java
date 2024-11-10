@@ -6,10 +6,12 @@ import java.text.DecimalFormat;
 
 import modelo.*;
 
+
+//Gestiona el carrito de compras, incluyendo la adición de productos, el resumen de la compra y el registro de ventas.
 public class GestorCarrito {
     private static List<ItemCarrito> items = new ArrayList<>();
     private static final String ARCHIVO_VENTAS = "ventas.txt";
-
+//Añade un producto al carrito de compras.
     public static String anadirProductoAlCarrito(Producto producto, int cantidad) {
         for (ItemCarrito item : items) {
             if (item.getProducto().getNombre().equalsIgnoreCase(producto.getNombre())) {
@@ -27,7 +29,7 @@ public class GestorCarrito {
         items.add(new ItemCarrito(producto, cantidad));
         return "Producto añadido correctamente al carrito.";
     }
-    
+    //Muestra un resumen de la compra, con posibles descuentos aplicados.
     public static String mostrarResumenCompra(boolean esAfiliado) {
         Map<String, List<ItemCarrito>> productosPorCategoria = new HashMap<>();
         DecimalFormat df = new DecimalFormat("#,###");
@@ -89,7 +91,7 @@ public class GestorCarrito {
 
         return resumen.toString();
     }
-    
+    //Registra la compra actual en el archivo de ventas y vacía el carrito.
     public static String realizarCompra() {
         Map<String, Map<String, Integer>> ventasPorCategoria = new HashMap<>();
 
