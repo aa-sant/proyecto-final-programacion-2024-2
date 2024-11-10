@@ -32,7 +32,11 @@ public class Controlador {
 		}
 	}
 	
-	//Registra un nuevo usuario en el sistema.
+	//Registra un nuevo usuario en el sistema. 
+	  /* @param identificacion Identificación del usuario.
+	   * @param nombre Nombre del usuario.
+	   * @return Mensaje de éxito o error.
+	     */
 	
 	public String registrarUsuario(String identificacion, String nombre) {
 		Usuario usuario = GestorUsuarios.registrarUsuario(identificacion, nombre);
@@ -45,7 +49,12 @@ public class Controlador {
 		}
 	}
 	
-	// Gestión Productos
+//**
+  /* Obtiene una lista de productos según la categoría dada.
+    * 
+    * @param nombreCategoria Nombre de la categoría de productos.
+    * @return Lista de productos como cadenas de texto.
+    */
 	public List<String> obtenerProductosPorCategoria(String nombreCategoria){
 		List<Producto> productos = GestorProductos.obtenerProductosPorCategoria(nombreCategoria);
 		
@@ -58,6 +67,11 @@ public class Controlador {
 	}
 	
 	//Añade un producto al carrito de compras.
+	  /* 
+	     * @param itemProducto Identificador del producto.
+	     * @param cantidad Cantidad del producto.
+	     * @return Mensaje de éxito o error.
+	     */
 	public String anadirProductoAlCarrito(String itemProducto, int cantidad) {
 		Producto producto = GestorProductos.obtenerProductoPorItem(itemProducto);
 		
@@ -66,10 +80,16 @@ public class Controlador {
 		return GestorCarrito.anadirProductoAlCarrito(producto, cantidad);
 	}
 	//Muestra el resumen de la compra actual.
+	  /* 
+	     * @return Resumen de compra en formato de texto.
+	     */
 	public String mostrarResumenCompra(){
 		return GestorCarrito.mostrarResumenCompra(usuarioLogueado.isAfiliado());
 	}
 	//Realiza la compra de los productos en el carrito.
+	 /* 
+     * @return Mensaje de éxito o error.
+     */
 	public String realizarCompra() {
 		return GestorCarrito.realizarCompra();
 	}

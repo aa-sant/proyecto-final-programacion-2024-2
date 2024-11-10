@@ -14,13 +14,20 @@ public class GUI {
     private JFrame FramePago;
     
     private Controlador c;
-
+    /**
+     * Constructor que inicializa la GUI y la pantalla de inicio de sesión.
+     * 
+     * @param c El controlador que maneja la lógica de la aplicación.
+     */
     public GUI(Controlador c) {
     	this.c = c;
         InicioSsPant();
     }
-   
+    /**
+     * Inicializa la pantalla de inicio de sesión.
+     */
     private void InicioSsPant() {
+    	 // Implementación de la interfaz de inicio de sesión
         FrameIni = new JFrame("Iniciar Sesión");
         FrameIni.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         FrameIni.setSize(400, 250);  
@@ -83,8 +90,11 @@ public class GUI {
         FrameIni.setLocationRelativeTo(null);
         FrameIni.setVisible(true);
     }
-
+    /**
+     * Muestra la pantalla de categorías donde el usuario puede seleccionar una categoría.
+     */
     private void CategoriasPant() {
+    	// Implementación de la interfaz de categorías
         FramePrinc = new JFrame("PlusMarket - Categorías");
         FramePrinc.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         FramePrinc.setSize(800, 600);
@@ -162,8 +172,13 @@ public class GUI {
 
         FramePrinc.setVisible(true);
     }
-
+    /**
+     * Muestra los productos de una categoría seleccionada.
+     * 
+     * @param categoria La categoría de productos a mostrar.
+     */
     private void MostrarProduc(String categoria) {
+    	 // Implementación de la interfaz de productos por categoría
         FramePrinc.setVisible(false);
 
         Frameproducto = new JFrame("PlusMarket - " + categoria);
@@ -229,7 +244,9 @@ public class GUI {
 
         Frameproducto.setVisible(true);
     }
-
+    /**
+     * Muestra la pantalla de resumen de la compra.
+     */
     private void mostrarResumenCompra() {
         JFrame framePago = new JFrame("Resumen de Compra");
         framePago.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -292,9 +309,12 @@ public class GUI {
     }
 
     
-    
+    /**
+     * Muestra el carrito de compras con los productos añadidos.
+     */
 
     private void mostrarCarrito() {
+    	 // Implementación de la interfaz de carrito de compras
         JFrame frameCarrito = new JFrame("Carrito de Compras");
         frameCarrito.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frameCarrito.setSize(600, 400);
